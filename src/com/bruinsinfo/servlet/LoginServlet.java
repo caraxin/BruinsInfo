@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.bruinsinfo.dao.UserDAO;
 import com.bruinsinfo.model.User;
 import com.google.gson.Gson;
@@ -33,19 +36,6 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-        System.out.println("doGet Login ======");
-        String userName = request.getParameter("userName");
-
-        try {
-            UserDAO dao = new UserDAO();
-            User user = dao.getUserInfo(userName);
-            response.getWriter().write(new Gson().toJson(user));
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 	}
 
 	/**
@@ -55,13 +45,17 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         System.out.println("doPost Login ======");
-
-        String user_email = request.getParameter("user_email");
-        String user_password = request.getParameter("user_pass");
-        System.out.println(user_email + " " + user_password);
-        UserDAO userDAO = new UserDAO();
         
 		try {
+			String req = request.getParameter("param");
+	        JSONObject jsonObject = new JSONObject(req);
+	        
+			String user_email = jsonObject.getString("user_email");
+	        String user_password = jsonObject.getString("user_password");
+
+	        System.out.println(user_email + " " + user_password);
+	        UserDAO userDAO = new UserDAO();
+	        
 			User user = userDAO.getUserInfo(user_email);
 			if (user == null) {
 	            out.println("0");
@@ -74,6 +68,9 @@ public class LoginServlet extends HttpServlet {
 	        	System.out.println("2");
 	        }
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

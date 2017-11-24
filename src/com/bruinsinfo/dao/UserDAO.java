@@ -20,6 +20,7 @@ public class UserDAO {
     public static void main(String args[]) throws SQLException {
     	UserDAO dao = new UserDAO();
     	//dao.updateUserInfo("caraxin", "0129", "123@123.com");
+    	dao.insertUser(new User("xuxin@g.ucla.com", "connie", "1234", "0123456789", "weyburn terrace"));
     }
     
     static {
@@ -43,9 +44,11 @@ public class UserDAO {
     		String user_password = rs.getString(3);
     		String user_phone = rs.getString(4);
     		String user_address = rs.getString(5);
+    		clearConnection();
     		return new User(user_email, user_name, user_password, user_phone, user_address);
     	}
     	else return null;
+    	
     }
     
     public int insertUser(User user) throws SQLException {
@@ -56,21 +59,22 @@ public class UserDAO {
     	stmt.setString(4, user.getUser_phone());
     	stmt.setString(5, user.getUser_address());
     	int rs = stmt.executeUpdate();
+    	clearConnection();
         return rs;
     }
     
     public void clearConnection() throws SQLException {
-    	if (getUserInfoStmt != null || !getUserInfoStmt.isClosed()) {
+    	if (getUserInfoStmt != null && !getUserInfoStmt.isClosed()) {
     		getUserInfoStmt.close();
     		getUserInfoStmt = null;
     	}
     	
-    	if (insertUserStmt != null || !insertUserStmt.isClosed()) {
+    	if (insertUserStmt != null && !insertUserStmt.isClosed()) {
     		insertUserStmt.close();
     		insertUserStmt = null;
     	}
     	
-    	if (conn != null || !conn.isClosed()) {
+    	if (conn != null && !conn.isClosed()) {
     		conn.close();
     		conn = null;
     	}

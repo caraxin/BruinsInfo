@@ -68,8 +68,8 @@ public class SignupServlet extends HttpServlet {
 		} catch (SQLException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			out.println(0);
 		}
-		out.println(0);
 		out.flush();
         out.close();
 	}
