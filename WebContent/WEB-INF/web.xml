@@ -21,6 +21,10 @@
     <servlet-name>GeoInfoServlet</servlet-name>
     <servlet-class>com.bruinsinfo.servlet.GeoInfoServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GetUserServlet</servlet-name>
+    <servlet-class>com.bruinsinfo.servlet.GetUserServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -32,5 +36,9 @@
   <servlet-mapping>
     <servlet-name>GeoInfoServlet</servlet-name>
     <url-pattern>/GeoInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetUserServlet</servlet-name>
+    <url-pattern>/GetUser</url-pattern>
   </servlet-mapping>
 </web-app>

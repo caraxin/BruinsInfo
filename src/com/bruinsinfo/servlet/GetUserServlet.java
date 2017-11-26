@@ -13,24 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.bruinsinfo.dao.LandmarkDAO;
 import com.bruinsinfo.dao.UserDAO;
-import com.bruinsinfo.model.Landmark;
 import com.bruinsinfo.model.User;
-import com.bruinsinfo.util.UserCount;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class GeoInfoServlet
+ * Servlet implementation class GetUserServlet
  */
-@WebServlet("/GeoInfoServlet")
-public class GeoInfoServlet extends HttpServlet {
+@WebServlet("/GetUserServlet")
+public class GetUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GeoInfoServlet() {
+    public GetUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -49,35 +46,31 @@ public class GeoInfoServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-        System.out.println("doPost GeoInfo ======");
-        System.out.println(request.getParameter("param"));
+        PrintWriter out = response.getWriter();
+        System.out.println("doPost GetUser ======");
         
 		try {
 			String req = request.getParameter("param");
 	        JSONObject jsonObject = new JSONObject(req);
 	        
-			double latitude = jsonObject.getDouble("latitude");
-	        double longitude = jsonObject.getDouble("longitude");
-	        String email = jsonObject.getString("email");
-	        System.out.println(latitude + " " + longitude + " " + email);
+			String user_email = jsonObject.getString("email");
+
+	        System.out.println(user_email);
+	        UserDAO userDAO = new UserDAO();
 	        
-	        LandmarkDAO landmarkDAO = new LandmarkDAO();
-			Landmark landmark = landmarkDAO.getNearestLandmark(latitude, longitude);
-			// update landmark_user_count
-			UserCount.addUser(landmark.getName(), email);
-			int landmark_user_count = UserCount.getUserCount(landmark.getName());
-			landmark.setUserCount(landmark_user_count);
-			
+			User user = userDAO.getUserInfo(user_email);
 			Gson gson = new Gson();
-			String ret = gson.toJson(landmark);
+			String ret = gson.toJson(user);
 			System.out.println(ret);
 			out.println(ret);
-		} catch (SQLException | JSONException e) {
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		out.flush();
+        out.flush();
         out.close();
 	}
 

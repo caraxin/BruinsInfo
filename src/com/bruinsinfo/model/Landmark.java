@@ -6,6 +6,14 @@ public class Landmark {
 	private double longitude;
 	private String url;
 	private double distance;
+	private int userCount;
+	
+	public int getUserCount() {
+		return userCount;
+	}
+	public void setUserCount(int userCount) {
+		this.userCount = userCount;
+	}
 	public double getDistance() {
 		return distance;
 	}
@@ -43,6 +51,7 @@ public class Landmark {
 		this.longitude = longitude;
 		this.url = url;
 		this.distance = distance;
+		this.userCount = 0;
 	}
 	
 }
