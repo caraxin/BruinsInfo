@@ -45,9 +45,15 @@ public class UserCount {
 		landmark_user.get(landmark).add(email);
 	}
 	
-	public static int getUserCount(String landmark) {
+	public static HashMap<Integer, HashSet<String>> getUserCount(String landmark) {
 		// first update the landmark_user_count
-		if (!landmark_user_count.containsKey(landmark)) return 0;
+		if (!landmark_user_count.containsKey(landmark)) {
+			HashMap<Integer, HashSet<String>> nolandmark = new HashMap<>();
+			HashSet<String> emptyset = new HashSet<>();
+			nolandmark.put(0, emptyset);
+			return nolandmark;
+		}
+		//used to be return 0
 		ArrayList<Pair> user_timestamp = landmark_user_count.get(landmark);
 		HashSet<String> user = landmark_user.get(landmark);
 		
@@ -67,6 +73,14 @@ public class UserCount {
 			user.remove(email);
 			user_timestamp.remove(0); 
 		}
-		return user_timestamp.size();
+		
+		//return data object that also holds email list of users in range
+		
+		HashMap<Integer, HashSet<String>> user_email_list = new HashMap<>();
+		int num_users = user_timestamp.size();
+		user_email_list.put(num_users, user);
+		
+		return user_email_list; 
+		//return user_timestamp.size();
 	}
 }

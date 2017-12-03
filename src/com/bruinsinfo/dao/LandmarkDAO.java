@@ -11,9 +11,9 @@ import com.bruinsinfo.model.User;
 
 public class LandmarkDAO {
 	private String USERNAME = "root";
-	private String PASSWORD = "root";
+	private String PASSWORD = "bruininfo";
 	
-	private static final String URL ="jdbc:mysql://localhost:3306/BruinsInfo";
+	private static final String URL ="jdbc:mysql://localhost:3306/BruinInfo";
     private static final String MYSQL_DRIVER ="com.mysql.jdbc.Driver";
     private static final String GET_NEAREST_LANDMARK = "SELECT *, " +
     		"ROUND(6378.138 * 2 * ASIN(SQRT(POW(SIN((? * PI() / 180 - latitude * PI() / 180) / 2), 2)" +

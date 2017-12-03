@@ -10,9 +10,9 @@ import com.bruinsinfo.model.User;
 
 public class UserDAO {
 	private String USERNAME = "root";
-	private String PASSWORD = "root";
+	private String PASSWORD = "bruininfo";
 	
-	private static final String URL ="jdbc:mysql://localhost:3306/BruinsInfo";
+	private static final String URL ="jdbc:mysql://localhost:3306/BruinInfo";
     private static final String MYSQL_DRIVER ="com.mysql.jdbc.Driver";
     private static final String GET_USER_INFO = "select user_email, user_name, user_password, user_phone, user_address from User where user_email = ?;";
     private static final String INSERT_USER = "insert into User (user_email, user_name, user_password, user_phone, user_address) values (?, ?, ?, ?, ?);";

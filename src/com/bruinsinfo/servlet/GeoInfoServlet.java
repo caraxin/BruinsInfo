@@ -3,6 +3,11 @@ package com.bruinsinfo.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -66,13 +71,32 @@ public class GeoInfoServlet extends HttpServlet {
 			Landmark landmark = landmarkDAO.getNearestLandmark(latitude, longitude);
 			// update landmark_user_count
 			UserCount.addUser(landmark.getName(), email);
-			int landmark_user_count = UserCount.getUserCount(landmark.getName());
-			landmark.setUserCount(landmark_user_count);
 			
+			//grab data object returned by getUserCount
+			
+			HashMap<Integer, HashSet<String>> user_list = new HashMap<>();
+			
+			user_list = UserCount.getUserCount(landmark.getName());
+			List<Integer> landmk_user_count = new ArrayList<Integer>(user_list.keySet());
+			/*int landmark_user_count = UserCount.getUserCount(landmark.getName());*/
+			
+			int landmark_user_count = landmk_user_count.get(0);
+			
+			List<String> landmk_user_emails = new ArrayList<String>(user_list.get(landmark_user_count));
+			
+			landmark.setUserCount(landmark_user_count);
+						
 			Gson gson = new Gson();
 			String ret = gson.toJson(landmark);
 			System.out.println(ret);
 			out.println(ret);
+			
+			//also print e-mail list
+			
+			String emailsret = gson.toJson(landmk_user_emails);
+			System.out.println(emailsret);
+			out.println(emailsret);
+			
 		} catch (SQLException | JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
