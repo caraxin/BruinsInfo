@@ -66,7 +66,7 @@ public class UserCount {
 			long milliseconds_t = t.getTime();
 			long diff = milliseconds_cur - milliseconds_t;
 			long diffMinutes = diff / (60 * 1000);
-			if (diffMinutes <= 20) break;
+			if (diffMinutes <= 10) break;
 		}
 		while (i-- != 0) {
 			String email = user_timestamp.get(0).getEmail();
